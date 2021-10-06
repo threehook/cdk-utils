@@ -1,0 +1,60 @@
+{
+  "name": "distr-cdk",
+  "description": "Library for setting up an AWS code pipeline with CDK",
+  "license": "UNLICENSED",
+  "private": true,
+  "author": "DPG Media",
+  "version": "10.3.1",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org:persgroep/distr-cdk.git"
+  },
+  "bin": {
+    "deploycode": "./bin/deploycode",
+    "build-go-functions.sh": "./bin/build-go-functions.sh",
+    "install-node-dependencies.sh": "./bin/install-node-dependencies.sh",
+    "prune-node-non-prod-dependencies.sh": "./bin/prune-node-non-prod-dependencies.sh",
+    "link-typescript-layers.sh": "./bin/link-typescript-layers.sh"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest --passWithNoTests",
+    "cdk": "cdk",
+    "upgrade:check": "ncu",
+    "upgrade": "ncu -u",
+    "postupgrade": "npm install"
+  },
+  "devDependencies": {
+    "@aws-cdk/assert": "^1.118.0",
+    "@types/jest": "^27.0.1",
+    "@types/node": "16.6.1",
+    "aws-cdk": "^1.118.0",
+    "jest": "^27.0.6",
+    "npm-check-updates": "^11.8.3",
+    "ts-jest": "^27.0.4",
+    "ts-node": "^10.2.0",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@aws-cdk/pipelines": "^1.126.0",
+    "@aws-cdk/aws-apigateway": "^1.118.0",
+    "@aws-cdk/aws-certificatemanager": "^1.118.0",
+    "@aws-cdk/aws-cloudwatch-actions": "^1.118.0",
+    "@aws-cdk/aws-codebuild": "^1.118.0",
+    "@aws-cdk/aws-codecommit": "^1.118.0",
+    "@aws-cdk/aws-codepipeline": "^1.118.0",
+    "@aws-cdk/aws-codepipeline-actions": "^1.118.0",
+    "@aws-cdk/aws-dynamodb": "^1.118.0",
+    "@aws-cdk/aws-iam": "^1.118.0",
+    "@aws-cdk/aws-lambda": "^1.118.0",
+    "@aws-cdk/aws-lambda-destinations": "^1.118.0",
+    "@aws-cdk/aws-lambda-event-sources": "^1.118.0",
+    "@aws-cdk/aws-logs": "^1.118.0",
+    "@aws-cdk/aws-logs-destinations": "^1.118.0",
+    "@aws-cdk/aws-route53": "^1.118.0",
+    "@aws-cdk/aws-s3": "^1.118.0",
+    "@aws-cdk/aws-secretsmanager": "^1.118.0",
+    "@aws-cdk/core": "^1.118.0"
+  }
+}

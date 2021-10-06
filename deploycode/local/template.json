@@ -1,0 +1,846 @@
+{
+	  "Resources": {
+	    "ComplaintApi17390FE5": {
+	      "Type": "AWS::ApiGateway::RestApi",
+	      "Properties": {
+	        "EndpointConfiguration": {
+	          "Types": [
+	            "REGIONAL"
+	          ]
+	        },
+	        "Name": "Api",
+	        "Tags": [
+	          {
+	            "Key": "Application",
+	            "Value": "Distribution Complaint Service"
+	          },
+	          {
+	            "Key": "Stage",
+	            "Value": "QA:ACC"
+	          }
+	        ]
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/Resource"
+	      }
+	    },
+	    "ComplaintApiDeploymentF5B9669E5f06dedd091a07424dd534e07e105724": {
+	      "Type": "AWS::ApiGateway::Deployment",
+	      "Properties": {
+	        "RestApiId": {
+	          "Ref": "ComplaintApi17390FE5"
+	        },
+	        "Description": "Automatically created by the RestApi construct"
+	      },
+	      "DependsOn": [
+	        "ComplaintApicomplaintsGETApiPermissionqaComplaintServiceStackComplaintApiBA4780E7GETcomplaints4CBCFDBC",
+	        "ComplaintApicomplaintsGETApiPermissionTestqaComplaintServiceStackComplaintApiBA4780E7GETcomplaintsF4ECD264",
+	        "ComplaintApicomplaintsGET604815B4",
+	        "ComplaintApicomplaintsPOST7B6280A0",
+	        "ComplaintApicomplaints78105D6D"
+	      ],
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/Deployment/Resource"
+	      }
+	    },
+	    "ComplaintApiDeploymentStageQABE884F4E": {
+	      "Type": "AWS::ApiGateway::Stage",
+	      "Properties": {
+	        "RestApiId": {
+	          "Ref": "ComplaintApi17390FE5"
+	        },
+	        "DeploymentId": {
+	          "Ref": "ComplaintApiDeploymentF5B9669E5f06dedd091a07424dd534e07e105724"
+	        },
+	        "StageName": "QA",
+	        "Tags": [
+	          {
+	            "Key": "Application",
+	            "Value": "Distribution Complaint Service"
+	          },
+	          {
+	            "Key": "Stage",
+	            "Value": "QA:ACC"
+	          }
+	        ],
+	        "TracingEnabled": true
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/DeploymentStage.QA/Resource"
+	      }
+	    },
+	    "ComplaintApiCloudWatchRole55712E87": {
+	      "Type": "AWS::IAM::Role",
+	      "Properties": {
+	        "AssumeRolePolicyDocument": {
+	          "Statement": [
+	            {
+	              "Action": "sts:AssumeRole",
+	              "Effect": "Allow",
+	              "Principal": {
+	                "Service": "apigateway.amazonaws.com"
+	              }
+	            }
+	          ],
+	          "Version": "2012-10-17"
+	        },
+	        "ManagedPolicyArns": [
+	          {
+	            "Fn::Join": [
+	              "",
+	              [
+	                "arn:",
+	                {
+	                  "Ref": "AWS::Partition"
+	                },
+	                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+	              ]
+	            ]
+	          }
+	        ],
+	        "Tags": [
+	          {
+	            "Key": "Application",
+	            "Value": "Distribution Complaint Service"
+	          },
+	          {
+	            "Key": "Stage",
+	            "Value": "QA:ACC"
+	          }
+	        ]
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/CloudWatchRole/Resource"
+	      }
+	    },
+	    "ComplaintApiAccount88C9D7A1": {
+	      "Type": "AWS::ApiGateway::Account",
+	      "Properties": {
+	        "CloudWatchRoleArn": {
+	          "Fn::GetAtt": [
+	            "ComplaintApiCloudWatchRole55712E87",
+	            "Arn"
+	          ]
+	        }
+	      },
+	      "DependsOn": [
+	        "ComplaintApi17390FE5"
+	      ],
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/Account"
+	      }
+	    },
+	    "ComplaintApicomplaints78105D6D": {
+	      "Type": "AWS::ApiGateway::Resource",
+	      "Properties": {
+	        "ParentId": {
+	          "Fn::GetAtt": [
+	            "ComplaintApi17390FE5",
+	            "RootResourceId"
+	          ]
+	        },
+	        "PathPart": "complaints",
+	        "RestApiId": {
+	          "Ref": "ComplaintApi17390FE5"
+	        }
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/Default/complaints/Resource"
+	      }
+	    },
+	    "ComplaintApicomplaintsGETApiPermissionqaComplaintServiceStackComplaintApiBA4780E7GETcomplaints4CBCFDBC": {
+	      "Type": "AWS::Lambda::Permission",
+	      "Properties": {
+	        "Action": "lambda:InvokeFunction",
+	        "FunctionName": {
+	          "Fn::GetAtt": [
+	            "GetComplaintsF92E278F",
+	            "Arn"
+	          ]
+	        },
+	        "Principal": "apigateway.amazonaws.com",
+	        "SourceArn": {
+	          "Fn::Join": [
+	            "",
+	            [
+	              "arn:",
+	              {
+	                "Ref": "AWS::Partition"
+	              },
+	              ":execute-api:eu-west-1:769369456184:",
+	              {
+	                "Ref": "ComplaintApi17390FE5"
+	              },
+	              "/",
+	              {
+	                "Ref": "ComplaintApiDeploymentStageQABE884F4E"
+	              },
+	              "/GET/complaints"
+	            ]
+	          ]
+	        }
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/Default/complaints/GET/ApiPermission.qaComplaintServiceStackComplaintApiBA4780E7.GET..complaints"
+	      }
+	    },
+	    "ComplaintApicomplaintsGETApiPermissionTestqaComplaintServiceStackComplaintApiBA4780E7GETcomplaintsF4ECD264": {
+	      "Type": "AWS::Lambda::Permission",
+	      "Properties": {
+	        "Action": "lambda:InvokeFunction",
+	        "FunctionName": {
+	          "Fn::GetAtt": [
+	            "GetComplaintsF92E278F",
+	            "Arn"
+	          ]
+	        },
+	        "Principal": "apigateway.amazonaws.com",
+	        "SourceArn": {
+	          "Fn::Join": [
+	            "",
+	            [
+	              "arn:",
+	              {
+	                "Ref": "AWS::Partition"
+	              },
+	              ":execute-api:eu-west-1:769369456184:",
+	              {
+	                "Ref": "ComplaintApi17390FE5"
+	              },
+	              "/test-invoke-stage/GET/complaints"
+	            ]
+	          ]
+	        }
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/Default/complaints/GET/ApiPermission.Test.qaComplaintServiceStackComplaintApiBA4780E7.GET..complaints"
+	      }
+	    },
+	    "ComplaintApicomplaintsGET604815B4": {
+	      "Type": "AWS::ApiGateway::Method",
+	      "Properties": {
+	        "HttpMethod": "GET",
+	        "ResourceId": {
+	          "Ref": "ComplaintApicomplaints78105D6D"
+	        },
+	        "RestApiId": {
+	          "Ref": "ComplaintApi17390FE5"
+	        },
+	        "AuthorizationType": "NONE",
+	        "Integration": {
+	          "IntegrationHttpMethod": "POST",
+	          "Type": "AWS_PROXY",
+	          "Uri": {
+	            "Fn::Join": [
+	              "",
+	              [
+	                "arn:",
+	                {
+	                  "Ref": "AWS::Partition"
+	                },
+	                ":apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+	                {
+	                  "Fn::GetAtt": [
+	                    "GetComplaintsF92E278F",
+	                    "Arn"
+	                  ]
+	                },
+	                "/invocations"
+	              ]
+	            ]
+	          }
+	        }
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/Default/complaints/GET/Resource"
+	      }
+	    },
+	    "ComplaintApicomplaintsPOSTApiPermissionqaComplaintServiceStackComplaintApiBA4780E7POSTcomplaintsD1D6FD9E": {
+	      "Type": "AWS::Lambda::Permission",
+	      "Properties": {
+	        "Action": "lambda:InvokeFunction",
+	        "FunctionName": {
+	          "Fn::GetAtt": [
+	            "CreateOrUpdateComplaints4E048641",
+	            "Arn"
+	          ]
+	        },
+	        "Principal": "apigateway.amazonaws.com",
+	        "SourceArn": {
+	          "Fn::Join": [
+	            "",
+	            [
+	              "arn:",
+	              {
+	                "Ref": "AWS::Partition"
+	              },
+	              ":execute-api:eu-west-1:769369456184:",
+	              {
+	                "Ref": "ComplaintApi17390FE5"
+	              },
+	              "/",
+	              {
+	                "Ref": "ComplaintApiDeploymentStageQABE884F4E"
+	              },
+	              "/POST/complaints"
+	            ]
+	          ]
+	        }
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/Default/complaints/POST/ApiPermission.qaComplaintServiceStackComplaintApiBA4780E7.POST..complaints"
+	      }
+	    },
+	    "ComplaintApicomplaintsPOSTApiPermissionTestqaComplaintServiceStackComplaintApiBA4780E7POSTcomplaintsA0AD9F32": {
+	      "Type": "AWS::Lambda::Permission",
+	      "Properties": {
+	        "Action": "lambda:InvokeFunction",
+	        "FunctionName": {
+	          "Fn::GetAtt": [
+	            "CreateOrUpdateComplaints4E048641",
+	            "Arn"
+	          ]
+	        },
+	        "Principal": "apigateway.amazonaws.com",
+	        "SourceArn": {
+	          "Fn::Join": [
+	            "",
+	            [
+	              "arn:",
+	              {
+	                "Ref": "AWS::Partition"
+	              },
+	              ":execute-api:eu-west-1:769369456184:",
+	              {
+	                "Ref": "ComplaintApi17390FE5"
+	              },
+	              "/test-invoke-stage/POST/complaints"
+	            ]
+	          ]
+	        }
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/Default/complaints/POST/ApiPermission.Test.qaComplaintServiceStackComplaintApiBA4780E7.POST..complaints"
+	      }
+	    },
+	    "ComplaintApicomplaintsPOST7B6280A0": {
+	      "Type": "AWS::ApiGateway::Method",
+	      "Properties": {
+	        "HttpMethod": "POST",
+	        "ResourceId": {
+	          "Ref": "ComplaintApicomplaints78105D6D"
+	        },
+	        "RestApiId": {
+	          "Ref": "ComplaintApi17390FE5"
+	        },
+	        "AuthorizationType": "NONE",
+	        "Integration": {
+	          "IntegrationHttpMethod": "POST",
+	          "Type": "AWS_PROXY",
+	          "Uri": {
+	            "Fn::Join": [
+	              "",
+	              [
+	                "arn:",
+	                {
+	                  "Ref": "AWS::Partition"
+	                },
+	                ":apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+	                {
+	                  "Fn::GetAtt": [
+	                    "CreateOrUpdateComplaints4E048641",
+	                    "Arn"
+	                  ]
+	                },
+	                "/invocations"
+	              ]
+	            ]
+	          }
+	        }
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/Default/complaints/POST/Resource"
+	      }
+	    },
+	    "ComplaintApih84znltpvl401FD456": {
+	      "Type": "AWS::ApiGateway::ApiKey",
+	      "Properties": {
+	        "Enabled": true,
+	        "StageKeys": [
+	          {
+	            "RestApiId": {
+	              "Ref": "ComplaintApi17390FE5"
+	            },
+	            "StageName": {
+	              "Ref": "ComplaintApiDeploymentStageQABE884F4E"
+	            }
+	          }
+	        ],
+	        "Tags": [
+	          {
+	            "Key": "Application",
+	            "Value": "Distribution Complaint Service"
+	          },
+	          {
+	            "Key": "Stage",
+	            "Value": "QA:ACC"
+	          }
+	        ]
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/h84znltpvl/Resource"
+	      }
+	    },
+	    "ComplaintApiparadiseaclkeyUsagePlan1C1BDBE2": {
+	      "Type": "AWS::ApiGateway::UsagePlan",
+	      "Properties": {
+	        "Tags": [
+	          {
+	            "Key": "Application",
+	            "Value": "Distribution Complaint Service"
+	          },
+	          {
+	            "Key": "Stage",
+	            "Value": "QA:ACC"
+	          }
+	        ],
+	        "Throttle": {
+	          "BurstLimit": 2,
+	          "RateLimit": 10
+	        },
+	        "UsagePlanName": "paradise-acl-keyUsagePlan"
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/paradise-acl-keyUsagePlan/Resource"
+	      }
+	    },
+	    "ComplaintApiparadiseaclkeyUsagePlanUsagePlanKeyResourceAEB33E72": {
+	      "Type": "AWS::ApiGateway::UsagePlanKey",
+	      "Properties": {
+	        "KeyId": {
+	          "Ref": "ComplaintApih84znltpvl401FD456"
+	        },
+	        "KeyType": "API_KEY",
+	        "UsagePlanId": {
+	          "Ref": "ComplaintApiparadiseaclkeyUsagePlan1C1BDBE2"
+	        }
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/paradise-acl-keyUsagePlan/UsagePlanKeyResource"
+	      }
+	    },
+	    "ComplaintApilq5e98lefi4918F437": {
+	      "Type": "AWS::ApiGateway::ApiKey",
+	      "Properties": {
+	        "Enabled": true,
+	        "StageKeys": [
+	          {
+	            "RestApiId": {
+	              "Ref": "ComplaintApi17390FE5"
+	            },
+	            "StageName": {
+	              "Ref": "ComplaintApiDeploymentStageQABE884F4E"
+	            }
+	          }
+	        ],
+	        "Tags": [
+	          {
+	            "Key": "Application",
+	            "Value": "Distribution Complaint Service"
+	          },
+	          {
+	            "Key": "Stage",
+	            "Value": "QA:ACC"
+	          }
+	        ]
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/lq5e98lefi/Resource"
+	      }
+	    },
+	    "ComplaintApiplankeyUsagePlan54345904": {
+	      "Type": "AWS::ApiGateway::UsagePlan",
+	      "Properties": {
+	        "Tags": [
+	          {
+	            "Key": "Application",
+	            "Value": "Distribution Complaint Service"
+	          },
+	          {
+	            "Key": "Stage",
+	            "Value": "QA:ACC"
+	          }
+	        ],
+	        "Throttle": {
+	          "BurstLimit": 2,
+	          "RateLimit": 10
+	        },
+	        "UsagePlanName": "plan-keyUsagePlan"
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/plan-keyUsagePlan/Resource"
+	      }
+	    },
+	    "ComplaintApiplankeyUsagePlanUsagePlanKeyResourceDCDB8395": {
+	      "Type": "AWS::ApiGateway::UsagePlanKey",
+	      "Properties": {
+	        "KeyId": {
+	          "Ref": "ComplaintApilq5e98lefi4918F437"
+	        },
+	        "KeyType": "API_KEY",
+	        "UsagePlanId": {
+	          "Ref": "ComplaintApiplankeyUsagePlan54345904"
+	        }
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/Complaint/Api/plan-keyUsagePlan/UsagePlanKeyResource"
+	      }
+	    },
+	    "GetComplaintsServiceRole684558E3": {
+	      "Type": "AWS::IAM::Role",
+	      "Properties": {
+	        "AssumeRolePolicyDocument": {
+	          "Statement": [
+	            {
+	              "Action": "sts:AssumeRole",
+	              "Effect": "Allow",
+	              "Principal": {
+	                "Service": "lambda.amazonaws.com"
+	              }
+	            }
+	          ],
+	          "Version": "2012-10-17"
+	        },
+	        "ManagedPolicyArns": [
+	          {
+	            "Fn::Join": [
+	              "",
+	              [
+	                "arn:",
+	                {
+	                  "Ref": "AWS::Partition"
+	                },
+	                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+	              ]
+	            ]
+	          }
+	        ],
+	        "Tags": [
+	          {
+	            "Key": "Application",
+	            "Value": "Distribution Complaint Service"
+	          },
+	          {
+	            "Key": "Stage",
+	            "Value": "QA:ACC"
+	          },
+	          {
+	            "Key": "dpg:lambda:path",
+	            "Value": "complaints/lambda/get"
+	          }
+	        ]
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/GetComplaints/GetComplaints/ServiceRole/Resource"
+	      }
+	    },
+	    "GetComplaintsServiceRoleDefaultPolicy71B4962E": {
+	      "Type": "AWS::IAM::Policy",
+	      "Properties": {
+	        "PolicyDocument": {
+	          "Statement": [
+	            {
+	              "Action": [
+	                "xray:PutTraceSegments",
+	                "xray:PutTelemetryRecords"
+	              ],
+	              "Effect": "Allow",
+	              "Resource": "*"
+	            },
+	            {
+	              "Action": "secretsmanager:GetSecretValue",
+	              "Effect": "Allow",
+	              "Resource": "arn:aws:secretsmanager:eu-west-1:769369456184:secret:complaint/test/mongodb-*"
+	            }
+	          ],
+	          "Version": "2012-10-17"
+	        },
+	        "PolicyName": "GetComplaintsServiceRoleDefaultPolicy71B4962E",
+	        "Roles": [
+	          {
+	            "Ref": "GetComplaintsServiceRole684558E3"
+	          }
+	        ]
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/GetComplaints/GetComplaints/ServiceRole/DefaultPolicy/Resource"
+	      }
+	    },
+	    "GetComplaintsF92E278F": {
+	      "Type": "AWS::Lambda::Function",
+	      "Properties": {
+	        "Code": {
+	          "S3Bucket": {
+	            "Ref": "GetComplaintsLambdaSourceBucketNameParameter2A10504D"
+	          },
+	          "S3Key": {
+	            "Ref": "GetComplaintsLambdaSourceObjectKeyParameterE12D2693"
+	          }
+	        },
+	        "Handler": "main",
+	        "Role": {
+	          "Fn::GetAtt": [
+	            "GetComplaintsServiceRole684558E3",
+	            "Arn"
+	          ]
+	        },
+	        "Runtime": "go1.x",
+	        "Environment": {
+	          "Variables": {
+	            "LOG_LEVEL": "debug",
+	            "DB_SECRET": "complaint/test/mongodb"
+	          }
+	        },
+	        "MemorySize": 2048,
+	        "Tags": [
+	          {
+	            "Key": "Application",
+	            "Value": "Distribution Complaint Service"
+	          },
+	          {
+	            "Key": "Stage",
+	            "Value": "QA:ACC"
+	          },
+	          {
+	            "Key": "dpg:lambda:path",
+	            "Value": "complaints/lambda/get"
+	          }
+	        ],
+	        "TracingConfig": {
+	          "Mode": "Active"
+	        }
+	      },
+	      "DependsOn": [
+	        "GetComplaintsServiceRoleDefaultPolicy71B4962E",
+	        "GetComplaintsServiceRole684558E3"
+	      ],
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/GetComplaints/GetComplaints/Resource"
+	      }
+	    },
+	    "GetComplaintsLogGroup20A5FBA7": {
+	      "Type": "AWS::Logs::LogGroup",
+	      "Properties": {
+	        "LogGroupName": {
+	          "Fn::Join": [
+	            "",
+	            [
+	              "/aws/lambda/",
+	              {
+	                "Ref": "GetComplaintsF92E278F"
+	              }
+	            ]
+	          ]
+	        },
+	        "RetentionInDays": 60
+	      },
+	      "UpdateReplacePolicy": "Retain",
+	      "DeletionPolicy": "Retain",
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/GetComplaints/LogGroup/Resource"
+	      }
+	    },
+	    "CreateOrUpdateComplaintsServiceRoleAB946351": {
+	      "Type": "AWS::IAM::Role",
+	      "Properties": {
+	        "AssumeRolePolicyDocument": {
+	          "Statement": [
+	            {
+	              "Action": "sts:AssumeRole",
+	              "Effect": "Allow",
+	              "Principal": {
+	                "Service": "lambda.amazonaws.com"
+	              }
+	            }
+	          ],
+	          "Version": "2012-10-17"
+	        },
+	        "ManagedPolicyArns": [
+	          {
+	            "Fn::Join": [
+	              "",
+	              [
+	                "arn:",
+	                {
+	                  "Ref": "AWS::Partition"
+	                },
+	                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+	              ]
+	            ]
+	          }
+	        ],
+	        "Tags": [
+	          {
+	            "Key": "Application",
+	            "Value": "Distribution Complaint Service"
+	          },
+	          {
+	            "Key": "Stage",
+	            "Value": "QA:ACC"
+	          },
+	          {
+	            "Key": "dpg:lambda:path",
+	            "Value": "complaints/lambda/create_or_update"
+	          }
+	        ]
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/CreateOrUpdateComplaints/CreateOrUpdateComplaints/ServiceRole/Resource"
+	      }
+	    },
+	    "CreateOrUpdateComplaintsServiceRoleDefaultPolicyC9A14C91": {
+	      "Type": "AWS::IAM::Policy",
+	      "Properties": {
+	        "PolicyDocument": {
+	          "Statement": [
+	            {
+	              "Action": [
+	                "xray:PutTraceSegments",
+	                "xray:PutTelemetryRecords"
+	              ],
+	              "Effect": "Allow",
+	              "Resource": "*"
+	            },
+	            {
+	              "Action": "secretsmanager:GetSecretValue",
+	              "Effect": "Allow",
+	              "Resource": "arn:aws:secretsmanager:eu-west-1:769369456184:secret:complaint/test/mongodb-*"
+	            }
+	          ],
+	          "Version": "2012-10-17"
+	        },
+	        "PolicyName": "CreateOrUpdateComplaintsServiceRoleDefaultPolicyC9A14C91",
+	        "Roles": [
+	          {
+	            "Ref": "CreateOrUpdateComplaintsServiceRoleAB946351"
+	          }
+	        ]
+	      },
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/CreateOrUpdateComplaints/CreateOrUpdateComplaints/ServiceRole/DefaultPolicy/Resource"
+	      }
+	    },
+	    "CreateOrUpdateComplaints4E048641": {
+	      "Type": "AWS::Lambda::Function",
+	      "Properties": {
+	        "Code": {
+	          "S3Bucket": {
+	            "Ref": "CreateOrUpdateComplaintsLambdaSourceBucketNameParameterF522D0BB"
+	          },
+	          "S3Key": {
+	            "Ref": "CreateOrUpdateComplaintsLambdaSourceObjectKeyParameter6098FB66"
+	          }
+	        },
+	        "Handler": "main",
+	        "Role": {
+	          "Fn::GetAtt": [
+	            "CreateOrUpdateComplaintsServiceRoleAB946351",
+	            "Arn"
+	          ]
+	        },
+	        "Runtime": "go1.x",
+	        "Environment": {
+	          "Variables": {
+	            "LOG_LEVEL": "debug",
+	            "DB_SECRET": "complaint/test/mongodb"
+	          }
+	        },
+	        "MemorySize": 2048,
+	        "Tags": [
+	          {
+	            "Key": "Application",
+	            "Value": "Distribution Complaint Service"
+	          },
+	          {
+	            "Key": "Stage",
+	            "Value": "QA:ACC"
+	          },
+	          {
+	            "Key": "dpg:lambda:path",
+	            "Value": "complaints/lambda/create_or_update"
+	          }
+	        ],
+	        "TracingConfig": {
+	          "Mode": "Active"
+	        }
+	      },
+	      "DependsOn": [
+	        "CreateOrUpdateComplaintsServiceRoleDefaultPolicyC9A14C91",
+	        "CreateOrUpdateComplaintsServiceRoleAB946351"
+	      ],
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/CreateOrUpdateComplaints/CreateOrUpdateComplaints/Resource"
+	      }
+	    },
+	    "CreateOrUpdateComplaintsLogGroupC6108CCB": {
+	      "Type": "AWS::Logs::LogGroup",
+	      "Properties": {
+	        "LogGroupName": {
+	          "Fn::Join": [
+	            "",
+	            [
+	              "/aws/lambda/",
+	              {
+	                "Ref": "CreateOrUpdateComplaints4E048641"
+	              }
+	            ]
+	          ]
+	        },
+	        "RetentionInDays": 60
+	      },
+	      "UpdateReplacePolicy": "Retain",
+	      "DeletionPolicy": "Retain",
+	      "Metadata": {
+	        "aws:cdk:path": "qaComplaintServiceStack/CreateOrUpdateComplaints/LogGroup/Resource"
+	      }
+	    }
+	  },
+	  "Outputs": {
+	    "ComplaintApiEndpointB1AEBD1D": {
+	      "Value": {
+	        "Fn::Join": [
+	          "",
+	          [
+	            "https://",
+	            {
+	              "Ref": "ComplaintApi17390FE5"
+	            },
+	            ".execute-api.eu-west-1.",
+	            {
+	              "Ref": "AWS::URLSuffix"
+	            },
+	            "/",
+	            {
+	              "Ref": "ComplaintApiDeploymentStageQABE884F4E"
+	            },
+	            "/"
+	          ]
+	        ]
+	      }
+	    }
+	  },
+	  "Parameters": {
+	    "GetComplaintsLambdaSourceBucketNameParameter2A10504D": {
+	      "Type": "String"
+	    },
+	    "GetComplaintsLambdaSourceObjectKeyParameterE12D2693": {
+	      "Type": "String"
+	    },
+	    "CreateOrUpdateComplaintsLambdaSourceBucketNameParameterF522D0BB": {
+	      "Type": "String"
+	    },
+	    "CreateOrUpdateComplaintsLambdaSourceObjectKeyParameter6098FB66": {
+	      "Type": "String"
+	    }
+	  }
+	}

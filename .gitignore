@@ -1,0 +1,21 @@
+# Dependency directories
+node_modules
+
+# Desktop Services Store on macOS
+.DS_Store
+
+# Intellij
+*.iml
+.idea
+/.project
+
+# Build files
+main
+dlv
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+# compiled CF templates in ops
+ops/cf-*.yaml

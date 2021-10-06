@@ -1,0 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+test('Nothing tested, for now', () => {
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2RrLnRlc3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJjZGsudGVzdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUdBLElBQUksQ0FBQyx5QkFBeUIsRUFBRSxHQUFHLEVBQUU7QUFFckMsQ0FBQyxDQUFDLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBleHBlY3QgYXMgZXhwZWN0Q0RLLCBtYXRjaFRlbXBsYXRlLCBNYXRjaFN0eWxlIH0gZnJvbSAnQGF3cy1jZGsvYXNzZXJ0JztcbmltcG9ydCAqIGFzIGNkayBmcm9tICdAYXdzLWNkay9jb3JlJztcblxudGVzdCgnTm90aGluZyB0ZXN0ZWQsIGZvciBub3cnLCAoKSA9PiB7XG4gICAgXG59KTtcbiJdfQ==
