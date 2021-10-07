@@ -9,8 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/mkideal/cli"
 	log "github.com/sirupsen/logrus"
-
-	"bitbucket.org/persgroep/distr-cdk/deploycode/cloudformation"
+	"github.com/threehook/cdk-utils/deploycode/cloudformation"
 )
 
 const (

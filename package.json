@@ -1,13 +1,13 @@
 {
-  "name": "distr-cdk",
+  "name": "cdk-utils",
   "description": "Library for setting up an AWS code pipeline with CDK",
   "license": "UNLICENSED",
   "private": true,
-  "author": "DPG Media",
+  "author": "Tonn van de Ven",
   "version": "10.3.1",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org:persgroep/distr-cdk.git"
+    "url": "git+ssh://git@bgithub.com:threehook/cdk-utils.git"
   },
   "bin": {
     "deploycode": "./bin/deploycode",
